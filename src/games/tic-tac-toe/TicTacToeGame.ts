@@ -29,39 +29,31 @@ class TicTacToeGame{
         this.board = board;
     }
 
+    resetBoard(): void{
+        this.updateBoard(new Array(9).fill(0));
+        this.isUserTurn = true;
+    }
+
     userPlay(cell:number):void{
+        if(!this.isUserTurn || this.board[cell] != 0 || this.isGameOver()) return;
+
         const newBoard = [...this.board]
         newBoard[cell] = this.userValue;
         
         this.updateBoard(newBoard);
+        this.isUserTurn = !this.isUserTurn;
     }
 
     computerPlay():void{
+        if(this.isUserTurn) return;
+
         const cell = this.findBestMove();
         const newBoard = [...this.board]
         newBoard[cell] = this.computerValue;
 
         this.updateBoard(newBoard);
-    }
 
-    findBestMove():number{
-        const tempBoard = [...this.board];
-        let bestMove = -1;
-        let bestScore = -2;
-        let score: number;
-        for(let i = 0; i<9; i++){
-            if(tempBoard[i] === 0){
-                tempBoard[i] = this.computerValue;
-                score = this.minimax(tempBoard, true);
-                if(score > bestScore){
-                    bestMove = i;
-                    bestScore = score;
-                    if(bestScore == 1) return bestMove;
-                }
-            }
-        }
-
-        return bestMove;
+        this.isUserTurn = !this.isUserTurn;
     }
 
     isWin(board:number[] = this.board, player:number):boolean{
@@ -73,55 +65,62 @@ class TicTacToeGame{
     }
 
     isDraw(board:number[] = this.board):boolean{
-        return board.some((value:number) => value === 0);
+        return board.every((value:number) => value != 0);
     }
 
-    minimax(board:number[], isUserTurn:boolean):number{
+    isGameOver(board:number[] = this.board):boolean{
+        return this.isWin(board, this.userValue) || this.isWin(board, this.computerValue) || this.isDraw(board);
+    }
 
-        if(isUserTurn){
-            if(this.isWin(board, this.userValue)){
-                return 1;
-            } else if(this.isWin(board, this.computerValue)){
-                return -1;
-            } else if(this.isDraw(board)){
-                return 0;
-            }
-
-            let maxScore = -1;
-            for(let i = 0; i<9; i++){
-                if(board[i] == 0){
-                    board[i] = this.userValue;
-                    board[i] = 0;
-                    maxScore = Math.max(maxScore, -this.minimax(board, false));
-                    if(maxScore == 1) return 1;
+    findBestMove(): number {
+        const tempBoard = [...this.board];
+        let bestMove = -1;
+        let bestScore = -Infinity;
+    
+        for (let i = 0; i < 9; i++) {
+            if (tempBoard[i] === 0) {
+                tempBoard[i] = this.computerValue;
+                const score = this.minimax(tempBoard, false);
+                tempBoard[i] = 0;
+    
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestMove = i;
+                    if (bestScore === 1) break; // Early win
                 }
             }
+        }
+    
+        return bestMove;
+    }
+    
+    minimax(board: number[], isComputerTurn: boolean): number {
+        if(this.isWin(board, this.computerValue)) return 1;
+        if(this.isWin(board, this.userValue)) return -1;
+        if(this.isDraw(board)) return 0;
 
-            return maxScore;
-        } else {
-            if(this.isWin(board, this.userValue)){
-                return -1;
-            } else if(this.isWin(board, this.computerValue)){
-                return 1;
-            } else if(this.isDraw(board)){
-                return 0;
-            }
+        let bestScore = isComputerTurn ? -Infinity: Infinity;
+        let score: number;
+        for(let i = 0; i<9; i++){
+            if(board[i] === 0){
 
-            let maxScore = -1;
+                board[i] = (isComputerTurn) ? this.computerValue : this.userValue;
+                score = this.minimax(board, !isComputerTurn);
+                board[i] = 0;
 
-            for(let i = 0; i<9; i++){
-                if(board[i] == 0){
-                    board[i] = this.computerValue;
-                    board[i] = 0;
-                    maxScore = Math.max(maxScore, -this.minimax(board, true));
-                    if(maxScore == 1) return 1;
+                if(isComputerTurn){
+                    bestScore = Math.max(bestScore, score);
+                    if(bestScore === 1) break;
+                } else{
+                    bestScore = Math.min(bestScore, score);
+                    if(bestScore === -1) break;
                 }
             }
-
-            return maxScore;
         }
 
+        return bestScore;
     }
+    
 }
 
 export default TicTacToeGame;
