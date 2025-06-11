@@ -34,15 +34,15 @@ function getInnerAsset(status: Status, num: number){
     const space = "\u00A0\u00A0\u00A0\u00A0\u00A0";
     switch(status){
         case Status.Hidden:
-            return <p>{space}</p>
+            return <p className="p-1">{space}</p>
         case Status.Revealed:
-            return <p className="text-center" style={{color:numberColorArray[num]}}>{(num == 0) ? space : num}</p>
+            return <p className="text-center p-1" style={{color:numberColorArray[num]}}>{(num == 0) ? space : num}</p>
         case Status.Flagged:
         case Status.WronglyFlagged:
-            return <img src={flag} alt="Flag" className="w-5 h-5"/>
+            return <img src={flag} alt="Flag" className="w-6 h-6 mt-1 ml-0.5"/>
         case Status.RevealedBomb:
         case Status.ClickedBomb:
-            return <img src={mine} alt="Mine" className="w-5 h-5"/>
+            return <img src={mine} alt="Mine" className="w-6 h-6 mt-1 ml-0.5"/>
     }
 }
 
@@ -60,7 +60,7 @@ function Cell({ num, status, onClick, onRightClick }: Props) {
     onClick={onClick} 
     onContextMenu={handleRightClick} 
     style={{backgroundColor: backgroundColor}}
-    className="p-2">
+    className="p-1">
         {getInnerAsset(status, num)}
     </div>
   )
