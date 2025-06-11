@@ -14,12 +14,15 @@ class MinesweeperGame{
     statusBoard: Status[][];
     unRevealedCells: number;
     hasClickedABomb: boolean;
+    setState: React.ActionDispatch<[]>;
 
-    constructor(n: number, mines: number){
+    constructor(setState: React.ActionDispatch<[]>, n: number = 10, mines: number = 9){
         this.n = n;
+        this.mines = mines;
+        this.setState = setState;
+
         this.board = Array.from({length:n}, () => new Array(n).fill(0));
         this.statusBoard = Array.from({length:n}, () => new Array(n).fill(Status.Hidden));
-        this.mines = mines;
         this.#fillBoard();
         this.unRevealedCells = n * n - mines;
         this.hasClickedABomb = false;
@@ -30,8 +33,8 @@ class MinesweeperGame{
         let remainingMines = this.mines;
 
         while(remainingMines > 0){
-            const row = Math.random() * this.n;
-            const col = Math.random() * this.n;
+            const row = Math.floor(Math.random() * this.n);
+            const col = Math.floor(Math.random() * this.n);
             if(this.board[row][col] != -1){
                 this.board[row][col] = -1;
                 remainingMines -= 1
@@ -43,8 +46,10 @@ class MinesweeperGame{
                 if(this.board[row][col] == -1){
                     for(let r = -1; r <= 1; r++){
                         for(let c = -1; c <= 1; c++){
-                            if(this.board[r][c] != -1){
-                                this.board[r][c]++;
+                            const nrow = row + r;
+                            const ncol = col + c;
+                            if(nrow >= 0 && nrow < this.n && ncol >= 0 && ncol < this.n && this.board[row + r][col + c] != -1){
+                                this.board[row + r][col + c]++;
                             }
                         }
                     }
@@ -76,6 +81,8 @@ class MinesweeperGame{
 
         //if it is a hidden number cell
         this.#clickedNumberedCell(row, col);
+
+        this.setState();
     }
 
     #clickedBomb(bRow: number, bCol: number): void{
@@ -95,7 +102,6 @@ class MinesweeperGame{
         this.statusBoard[bRow][bCol] = Status.ClickedBomb;
 
         this.hasClickedABomb = true;
-
     }
 
     #clickedNumberedCell(row: number, col: number): void{
@@ -127,13 +133,33 @@ class MinesweeperGame{
         } else{
             this.statusBoard[row][col] = Status.Flagged;
         }
+
+        this.setState();
     }
 
     isGameOver(): boolean{
         return this.hasClickedABomb || this.unRevealedCells === 0;
     }
 
-    //TODO: Implement a On Win Method 
+    isWin(): boolean{
+        return this.unRevealedCells === 0;
+    }
+
+    isLose(): boolean{
+        return this.hasClickedABomb;
+    }
+
+    resetGame(): void{
+        if(!this.isGameOver()) return;
+
+        this.board = Array.from({length:this.n}, () => new Array(this.n).fill(0));
+        this.statusBoard = Array.from({length:this.n}, () => new Array(this.n).fill(Status.Hidden));
+        this.#fillBoard();
+        this.unRevealedCells = this.n * this.n - this.mines;
+        this.hasClickedABomb = false;
+
+        this.setState();
+    }
 }
 
 export default MinesweeperGame;
