@@ -10,21 +10,33 @@ interface Props{
 }
 
 const backgroundColorArray = [
-    '#e8e8e8',
+    '#cfcfcf',
     '#fafafa',
-    '#e8e8e8',
+    '#cfcfcf',
     '#fafafa',
     '#ff5555',
     '#ff9595'
+]
+
+const numberColorArray = [
+    '',
+    '#0000FF',
+    '#008200',
+    '#FE0000',
+    '#000083',
+    '#840000',
+    '#008284',
+    '#850885',
+    '#757575'
 ]
 
 function getInnerAsset(status: Status, num: number){
     const space = "\u00A0\u00A0\u00A0\u00A0\u00A0";
     switch(status){
         case Status.Hidden:
-            return <span>{space}</span>
+            return <p>{space}</p>
         case Status.Revealed:
-            return <span>{(num == 0) ? space : num}</span>
+            return <p className="text-center" style={{color:numberColorArray[num]}}>{(num == 0) ? space : num}</p>
         case Status.Flagged:
         case Status.WronglyFlagged:
             return <img src={flag} alt="Flag" className="w-5 h-5"/>

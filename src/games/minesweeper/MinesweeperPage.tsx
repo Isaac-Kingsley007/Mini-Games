@@ -1,4 +1,4 @@
-import { useMemo, useState, useReducer, useEffect } from "react"
+import { useMemo, useState, useReducer, useEffect, useRef } from "react"
 import MinesweeperBoard from "./components/MinesweeperBoard"
 import MinesweeperGame from "./MinesweeperGame"
 
@@ -11,13 +11,19 @@ function MinesweeperPage() {
   const [wins, setWins] = useState(0);
   const [loses, setLoses] = useState(0);
 
+  const messageRef = useRef<HTMLParagraphElement>(null);
+
   useEffect(() => {
     if(minesweeperGame.isGameOver()){
       if(minesweeperGame.isWin()){
         setWins(wins + 1);
+        messageRef.current!.innerHTML = "You Won!!!!";
       } else{
         setLoses(loses + 1);
+        messageRef.current!.innerHTML = "Booomm! You Clicked a Mine";
       }
+    } else{
+      messageRef.current!.innerHTML = "";
     }
   }, [stateChange]);
 
@@ -29,8 +35,9 @@ function MinesweeperPage() {
 
   return (
     <div className="flex flex-col justify-between items-center w-full space-y-5">
-      <p className="text-4xl font-bold p-6">Minesweeper</p>
+      <p className="text-4xl font-bold p-3">Minesweeper</p>
       <MinesweeperBoard minesweeperGame={minesweeperGame}/>
+      <p ref={messageRef} className="text-xl px-5 py-3"></p>
       <div className="flex flex-row justify-evenly items-center w-full">
           {Object.entries(statusValues).map(([key, value], index) => 
             <div className="flex flex-col items-center px-4 space-y-2" key={index}>
@@ -39,7 +46,7 @@ function MinesweeperPage() {
             </div>
           )}
       </div>
-      <button onClick={() => minesweeperGame.resetGame()}>Reset</button>
+      <button onClick={() => minesweeperGame.resetGame()} className="text-white bg-red-400 px-6 py-3.5 rounded-2xl">Reset</button>
     </div>
   )
 }
