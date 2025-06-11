@@ -82,6 +82,10 @@ class MinesweeperGame{
         //if it is a hidden number cell
         this.#clickedNumberedCell(row, col);
 
+        if(this.isWin()){
+            this.#onWin();
+        }
+
         this.setState();
     }
 
@@ -159,6 +163,16 @@ class MinesweeperGame{
         this.hasClickedABomb = false;
 
         this.setState();
+    }
+
+    #onWin(): void{
+        for(let row = 0; row < this.n; row++){
+            for(let col = 0; col < this.n; col++){
+                if(this.statusBoard[row][col] === Status.Hidden){
+                    this.statusBoard[row][col] = Status.Flagged;
+                }
+            }
+        }
     }
 }
 
