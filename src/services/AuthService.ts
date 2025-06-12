@@ -24,3 +24,8 @@ export async function signIn(email: string, password: string): Promise<string| n
 
     return error?.message ?? null;
 }
+
+export async function signOut() {
+    console.log((await auth.getUser()))
+    await auth.signOut();
+}
