@@ -8,7 +8,13 @@ interface Props{
 function MinesweeperBoard({minesweeperGame}: Props) {
     
   return (
-    <div className={`bg-gray-700 p-1 grid grid-cols-${minesweeperGame.n} gap-1`}>
+    <div 
+      className="bg-gray-700 p-1"
+      style={{
+      display: 'grid',
+      gridTemplateColumns: `repeat(${minesweeperGame.n}, 1fr)`,
+      gap: '4px',  }}
+    >
         {
             Array.from({length: minesweeperGame.n * minesweeperGame.n}, (_, index) => 
                 <Cell num={minesweeperGame.getNumber(index)} 
