@@ -1,11 +1,4 @@
-export enum Status{
-    Hidden,
-    Revealed,
-    Flagged,
-    RevealedBomb,
-    ClickedBomb,
-    WronglyFlagged
-}
+import { Status } from "./types";
 
 class MinesweeperGame{
     n: number;
@@ -49,7 +42,7 @@ class MinesweeperGame{
                             const nrow = row + r;
                             const ncol = col + c;
                             if(nrow >= 0 && nrow < this.n && ncol >= 0 && ncol < this.n && this.board[row + r][col + c] != -1){
-                                this.board[row + r][col + c]++;
+                                this.board[nrow][ncol]++;
                             }
                         }
                     }
@@ -170,6 +163,9 @@ class MinesweeperGame{
             for(let col = 0; col < this.n; col++){
                 if(this.statusBoard[row][col] === Status.Hidden){
                     this.statusBoard[row][col] = Status.Flagged;
+                } 
+                if(this.statusBoard[row][col] === Status.Revealed){
+                    this.statusBoard[row][col] = Status.RevealedAfterWinning;
                 }
             }
         }

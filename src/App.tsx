@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "./services/supabaseClient";
 import type { User } from "@supabase/supabase-js";
 import TicTacToeLeaderBoardPage from "./games/tic-tac-toe/TicTacToeLeaderBoardPage";
+import MinesweeperLeaderBoardPage from "./games/minesweeper/MinesweeperLeaderBoardPage";
 
 function App() {
   const [user, setUser] = useState<User|null>(null);
@@ -53,6 +54,10 @@ function App() {
       <Route
         path="/tic-tac-toe/leaderboard"
         element={user ? <TicTacToeLeaderBoardPage /> : <Navigate to="/login" replace />}
+      />
+      <Route
+        path="/minesweeper/leaderboard"
+        element={user ? <MinesweeperLeaderBoardPage /> : <Navigate to="/login" replace />}
       />
     </Routes>
   );

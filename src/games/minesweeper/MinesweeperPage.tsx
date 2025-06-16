@@ -1,6 +1,8 @@
 import { useMemo, useState, useReducer, useEffect, useRef } from "react"
 import MinesweeperBoard from "./components/MinesweeperBoard"
 import MinesweeperGame from "./MinesweeperGame"
+import { fetchScore, updateScore } from "./MinesweeperScoreService";
+import { Link } from "react-router-dom";
 
 function MinesweeperPage() {
 
@@ -14,11 +16,23 @@ function MinesweeperPage() {
   const messageRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
+    const fetchData = async () => {
+      const scoreData = await fetchScore();
+      setWins(scoreData.wins);
+      setLoses(scoreData.loses);
+    }
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
     if(minesweeperGame.isGameOver()){
       if(minesweeperGame.isWin()){
+        updateScore({wins : wins + 1});
         setWins(wins + 1);
         messageRef.current!.innerHTML = "You Won!!!!";
       } else{
+        updateScore({loses: loses + 1});
         setLoses(loses + 1);
         messageRef.current!.innerHTML = "Booomm! You Clicked a Mine";
       }
@@ -35,7 +49,10 @@ function MinesweeperPage() {
 
   return (
     <div className="flex flex-col justify-between items-center w-full space-y-5">
-      <p className="text-4xl font-bold p-3">Minesweeper</p>
+      <div className="flex flex-row w-full p-6 items-center">
+        <p className="md:text-4xl text-2xl font-bold flex-1 text-center">Tic Tac Toe</p>
+        <Link to={'/minesweeper/leaderboard'} className="bg-blue-300 p-3 rounded-xl">Leader Board</Link>
+        </div>
       <MinesweeperBoard minesweeperGame={minesweeperGame}/>
       <p ref={messageRef} className="text-xl px-5 py-3"></p>
       <div className="flex flex-row justify-evenly items-center w-full">

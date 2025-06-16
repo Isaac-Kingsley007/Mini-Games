@@ -1,4 +1,4 @@
-import { Status } from "../MinesweeperGame"
+import { Status } from "../types"
 import mine from "../../../assets/mine.png"
 import flag from "../../../assets/flag.png"
 
@@ -15,7 +15,8 @@ const backgroundColorArray = [
     '#cfcfcf',
     '#fafafa',
     '#ff5555',
-    '#ff9595'
+    '#ff9595',
+    '#a3fca7'
 ]
 
 const numberColorArray = [
@@ -36,6 +37,7 @@ function getInnerAsset(status: Status, num: number){
         case Status.Hidden:
             return <p className="p-1">{space}</p>
         case Status.Revealed:
+        case Status.RevealedAfterWinning:
             return <p className="text-center p-1" style={{color:numberColorArray[num]}}>{(num == 0) ? space : num}</p>
         case Status.Flagged:
         case Status.WronglyFlagged:
