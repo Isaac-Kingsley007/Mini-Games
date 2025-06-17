@@ -9,6 +9,7 @@ import { supabase } from "./services/supabaseClient";
 import type { User } from "@supabase/supabase-js";
 import TicTacToeLeaderBoardPage from "./games/tic-tac-toe/TicTacToeLeaderBoardPage";
 import MinesweeperLeaderBoardPage from "./games/minesweeper/MinesweeperLeaderBoardPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   const [user, setUser] = useState<User|null>(null);
@@ -59,6 +60,11 @@ function App() {
         path="/minesweeper/leaderboard"
         element={user ? <MinesweeperLeaderBoardPage /> : <Navigate to="/login" replace />}
       />
+
+      <Route
+        path="*"
+        element={user ? <NotFoundPage/> : <Navigate to="/login" replace />}
+      />      
     </Routes>
   );
 }
