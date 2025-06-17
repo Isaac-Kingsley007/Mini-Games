@@ -16,7 +16,7 @@ const backgroundColorArray = [
     '#fafafa',
     '#ff5555',
     '#ff9595',
-    '#a3fca7'
+    '#b3f7bd'
 ]
 
 const numberColorArray = [

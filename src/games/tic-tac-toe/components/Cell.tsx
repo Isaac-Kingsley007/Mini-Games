@@ -5,7 +5,7 @@ interface Props{
 
 function Cell({value, onClick}:Props) {
     const char = ['O', '\u00A0\u00A0\u00A0', 'X'][value + 1];
-    const color = (value == -1) ? 'text-red-500' : 'text-black';
+    const color = (value == -1) ? 'text-red-500' : 'text-blue-600';
     return (
         <div onClick={onClick} className= {`text-3xl ${color} p-5 bg-white`} >{char}</div>
     )

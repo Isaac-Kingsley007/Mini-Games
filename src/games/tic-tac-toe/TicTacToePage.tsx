@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useMemo } from "react"
 import TicTacToeGame from "./TicTacToeGame";
 import TicTacToeBoard from "./components/TicTacToeBoard";
 import { fetchScore, updateScore } from "./TicTacToeScoreService";
-import { Link } from "react-router-dom";
+import GameAppBar from "../../components/GameAppBar";
 
 function TicTacToePage() {
 
@@ -62,10 +62,7 @@ function TicTacToePage() {
 
   return (
     <div className="flex flex-col justify-between items-center w-full space-y-5">
-        <div className="flex flex-row w-full p-6 items-center">
-        <p className="md:text-4xl text-2xl font-bold flex-1 text-center">Tic Tac Toe</p>
-        <Link to={'/tic-tac-toe/leaderboard'} className="bg-blue-300 p-3 rounded-xl">Leader Board</Link>
-        </div>
+        <GameAppBar heading="Tic Tac Toe" leaderBoardRoute="/tic-tac-toe/leaderboard"/>
         <TicTacToeBoard ticTacToeGame={ticTacToeGame}/>
         <p ref={messageRef} className="text-xl px-5 py-3"></p>
         <div className="flex flex-row justify-evenly items-center w-full">

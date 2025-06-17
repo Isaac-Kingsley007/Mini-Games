@@ -2,7 +2,7 @@ import { useMemo, useState, useReducer, useEffect, useRef } from "react"
 import MinesweeperBoard from "./components/MinesweeperBoard"
 import MinesweeperGame from "./MinesweeperGame"
 import { fetchScore, updateScore } from "./MinesweeperScoreService";
-import { Link } from "react-router-dom";
+import GameAppBar from "../../components/GameAppBar";
 
 function MinesweeperPage() {
 
@@ -44,15 +44,13 @@ function MinesweeperPage() {
   const statusValues = {
     "Total": wins + loses,
     "Wins": wins,
-    "Loses": loses
+    "Loses": loses,
+    "Score": wins - loses
   }
 
   return (
-    <div className="flex flex-col justify-between items-center w-full space-y-5">
-      <div className="flex flex-row w-full p-6 items-center">
-        <p className="md:text-4xl text-2xl font-bold flex-1 text-center">Tic Tac Toe</p>
-        <Link to={'/minesweeper/leaderboard'} className="bg-blue-300 p-3 rounded-xl">Leader Board</Link>
-        </div>
+    <div className="flex flex-col justify-between items-center w-full space-y-5 mb-4">
+      <GameAppBar heading="Minesweeper" leaderBoardRoute='/minesweeper/leaderboard'/>
       <MinesweeperBoard minesweeperGame={minesweeperGame}/>
       <p ref={messageRef} className="text-xl px-5 py-3"></p>
       <div className="flex flex-row justify-evenly items-center w-full">
@@ -63,7 +61,7 @@ function MinesweeperPage() {
             </div>
           )}
       </div>
-      <button onClick={() => minesweeperGame.resetGame()} className="text-white bg-red-400 px-6 py-3.5 rounded-2xl">Reset</button>
+      <button onClick={() => minesweeperGame.resetGame()} className="text-white bg-red-400 px-6 py-3.5 rounded-2xl">Reset Game</button>
     </div>
   )
 }
