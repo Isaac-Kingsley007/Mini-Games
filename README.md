@@ -21,7 +21,7 @@ More games coming soon! 🚀
 - 🏆 **Global Leaderboard**
   a Realtime Leader Board to rank all players worldwide
 - ☁️ **Cloud Synced Scores**
-  Scores saved per user and accessible across devices
+  saved per user and accessible across devices
 - 📱 **Responsive UI**
   Works well across mobile, tablet, and desktop
 - 🤖 **AI Opponent** built in for Tic Tac Toe
