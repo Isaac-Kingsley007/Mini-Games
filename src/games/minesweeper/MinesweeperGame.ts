@@ -115,10 +115,11 @@ class MinesweeperGame{
             return;
         }
 
-        this.#clickedNumberedCell(row + 1, col);
-        this.#clickedNumberedCell(row - 1, col);
-        this.#clickedNumberedCell(row, col - 1);
-        this.#clickedNumberedCell(row, col + 1);
+        for(let drow = -1; drow < 2; drow++){
+            for(let dcol = -1; dcol < 2; dcol++){
+                this.#clickedNumberedCell(row + drow, col + dcol);
+            }
+        }
     }
 
     flag(cell: number): void{

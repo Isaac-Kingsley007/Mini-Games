@@ -30,6 +30,9 @@ class TicTacToeGame{
     }
 
     resetBoard(): void{
+        //Reset Only works after game over
+        if(!this.isGameOver()) return;
+
         this.updateBoard(new Array(9).fill(0));
         this.isUserTurn = true;
     }
