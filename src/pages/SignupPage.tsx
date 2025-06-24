@@ -1,12 +1,14 @@
 import { useRef, useState } from "react";
 import { signUp } from "../services/AuthService";
 import { Link } from "react-router-dom";
+import SignupButton from "../components/SignupButton";
 
 function SignupPage() {
   const emailRef = useRef<HTMLInputElement>(null);
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSucessMessage] = useState<string | null>(null);
 
   const handleSignUp = async () => {
     const email = emailRef.current!.value;
@@ -14,7 +16,14 @@ function SignupPage() {
     const password = passwordRef.current!.value;
 
     const error = await signUp(email, username, password);
-    setErrorMessage(error);
+    
+    if(error){
+      setErrorMessage(error);
+    } else{
+      setSucessMessage("Please Verify Your Email. After Verifying Sign in With Your Credentials");
+    }
+
+    return error === null;
   };
 
   return (
@@ -41,21 +50,20 @@ function SignupPage() {
           ref={passwordRef}
         />
 
-        <button
-          className="w-full bg-green-500 text-white py-3 rounded-xl font-semibold hover:bg-green-600 transition"
-          onClick={handleSignUp}
-        >
-          Submit
-        </button>
+        <SignupButton onClick={handleSignUp}/>
 
         {errorMessage && (
           <p className="text-red-500 text-sm text-center">{errorMessage}</p>
         )}
 
+        {successMessage && (
+          <p className="text-sm text-center">{successMessage}</p>
+        )}
+
         <p className="text-center text-sm text-gray-600">
           Already have an account?{" "}
           <Link to="/login" className="text-blue-500 hover:underline">
-            Login
+            Sign In
           </Link>
         </p>
       </div>
