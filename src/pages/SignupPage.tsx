@@ -7,8 +7,9 @@ function SignupPage() {
   const emailRef = useRef<HTMLInputElement>(null);
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [successMessage, setSucessMessage] = useState<string | null>(null);
+  const [success, setSucess] = useState<boolean>(false);
 
   const handleSignUp = async () => {
     const email = emailRef.current!.value;
@@ -17,11 +18,8 @@ function SignupPage() {
 
     const error = await signUp(email, username, password);
     
-    if(error){
-      setErrorMessage(error);
-    } else{
-      setSucessMessage("Please Verify Your Email. After Verifying Sign in With Your Credentials");
-    }
+    setErrorMessage(error);
+    setSucess(error === null);
 
     return error === null;
   };
@@ -56,8 +54,11 @@ function SignupPage() {
           <p className="text-red-500 text-sm text-center">{errorMessage}</p>
         )}
 
-        {successMessage && (
-          <p className="text-sm text-center">{successMessage}</p>
+        {success && (
+          <p className="text-sm text-center">
+          We've sent you a verification email.<br/>
+          Please verify your email, then sign in with your credentials.
+        </p>        
         )}
 
         <p className="text-center text-sm text-gray-600">

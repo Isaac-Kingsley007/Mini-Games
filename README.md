@@ -2,6 +2,10 @@
 
 A fun and responsive **Mini Games Web App** built with React and powered by Supabase on the backend.
 
+## 🎮 Play Games
+
+Check out the live game here: [Play Now](https://mini-games-nu-two.vercel.app/)
+
 ## 🛠️ Tech Stack
 
 - **React** – Component-based UI
@@ -29,7 +33,7 @@ More games coming soon! 🚀
 
 ## 📫 Feedback
 
-Have ideas or bugs? [Open an issue](https://github.com/your-username/mini-games-webapp/issues) or reach out!
+Have ideas or bugs? [Open an issue](https://github.com/Isaac-Kingsley007/Mini-Games/issues) or reach out!
 
 ## ✨ Contributing
 
